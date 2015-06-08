@@ -1,0 +1,34 @@
+{
+  "name": "histograph-stats",
+  "version": "0.0.1",
+  "description": "Executes set of queries and writes results to Redis",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint index.js clear-sources.js lib test && jscs clear-sources.js index.js lib test && tape test/*.test.js"
+  },
+  "author": "Bert Spaan",
+  "license": "GPLv3",
+  "dependencies": {
+    "highland": "^2.5.1",
+    "neo4j": "^2.0.0-RC1",
+    "redis": "^0.12.1"
+  },
+  "devDependencies": {
+    "jscs": "^1.10.0",
+    "jshint": "^2.6.0",
+    "tape": "^3.4.0"
+  },
+  "jshintConfig": {
+    "node": true,
+    "globalstrict": false,
+    "undef": true,
+    "unused": true,
+    "noarg": true
+  },
+  "jscsConfig": {
+    "preset": "airbnb",
+    "requireCamelCaseOrUpperCaseIdentifiers": null,
+    "disallowMultipleVarDecl": true,
+    "requireMultipleVarDecl": null
+  }
+}
