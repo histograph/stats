@@ -4,7 +4,7 @@
   "description": "Executes set of queries and writes results to Redis",
   "main": "index.js",
   "scripts": {
-    "test": "jshint index.js clear-sources.js lib test && jscs clear-sources.js index.js lib test && tape test/*.test.js"
+    "test": "jshint *.js && jscs *.js"
   },
   "author": "Bert Spaan",
   "license": "GPL-3.0",

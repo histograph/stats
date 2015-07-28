@@ -6,7 +6,7 @@ var client = redis.createClient(config.redis.port, config.redis.host);
 var queues = config.redis.queues;
 var async = require('async');
 
-router.get('/queues', function (req, res, next) {
+router.get('/queues', function(req, res) {
   async.map(Object.keys(queues), function(queueId, callback) {
     client.llen(queues[queueId], function(err, reply) {
       if (err) {
