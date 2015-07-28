@@ -1,51 +1,34 @@
-var fs = require('fs');
-var path = require('path');
-var _ = require('highland');
-var config = require(process.env.HISTOGRAPH_CONFIG);
-var neo4j = require('neo4j');
-var url = 'http://' + config.core.neo4j.host + ':' + config.core.neo4j.port;
 var redis = require('redis');
+var express = require('express');
+var config = require(process.env.HISTOGRAPH_CONFIG);
 var client = redis.createClient(config.redis.port, config.redis.host);
-var db = new neo4j.GraphDatabase(url);
 var queues = config.redis.queues;
+var async = require('async');
 
-var readDir = _.wrapCallback(fs.readdir);
-var readFile = _.wrapCallback(function(filename, callback) {
-  return fs.readFile(filename, {encoding: 'utf8'}, callback);
-});
-var cypher = _.wrapCallback(function(query, callback) {
-  return db.cypher({
-    query: query
-  }, callback);
-});
+app.get('/sources', function(req, res) {
+  async.map(Object.keys(queues), function(queueId, callback) {
+    client.llen(queues[queueId], function(err, reply) {
+      if (err) {
+        callback(err);
+      }  else {
+        callback(null, {
+          redisName: queues[queueId],
+          queue: queueId,
+          length: reply
+        });
+      }
+    });
+  },
 
-var queryDir = 'queries';
-
-var queries = readDir(path.join('.', queryDir))
-  .filter(function(query) {
-    return path.extname(query) === '.cypher';
-  })
-  .flatten();
-
-var results = queries
-  .fork()
-  .map(function(query) {
-    return path.join('.', queryDir, query);
-  })
-  .map(readFile)
-  .series()
-  .map(cypher)
-  .series()
-  .errors(function(err) {
-    console.error(err)
+  function(err, lengths) {
+    if (err) {
+      res.status(400).send({
+        message: err
+      });
+    } else {
+      res.send(lengths);
+    }
   });
+});
 
-queries.fork().zip(results)
-  .each(function(result) {
-    var query = result[0];
-    var name = path.basename(query, path.extname(query))
-    client.hset(config.redis.queues.stats, name, JSON.stringify(result[1]));
-  })
-  .done(function() {
-    client.quit();
-  });
+module.exports = app;
