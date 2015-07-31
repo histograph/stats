@@ -1,7 +1,7 @@
 var redis = require('redis');
 var express = require('express');
 var router = express.Router();
-var config = require(process.env.HISTOGRAPH_CONFIG);
+var config = require('histograph-config');
 var client = redis.createClient(config.redis.port, config.redis.host);
 var queues = config.redis.queues;
 var async = require('async');
