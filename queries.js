@@ -3,10 +3,15 @@
 // var _ = require('highland');
 // var config = require(process.env.HISTOGRAPH_CONFIG);
 // var neo4j = require('neo4j');
-// var url = 'http://' + config.core.neo4j.host + ':' + config.core.neo4j.port;
+// if (config.neo4j.user && config.neo4j.password) {
+//   var neo4jUrl = 'http://' + config.neo4j.user + ':' + config.neo4j.password + '@'
+//       + config.neo4j.host + ':' + config.neo4j.port;
+// } else {
+//   var neo4jUrl = 'http://' + config.neo4j.host + ':' + config.neo4j.port;
+// }
+// var db = new neo4j.GraphDatabase(neo4jUrl);
 // var redis = require('redis');
 // var client = redis.createClient(config.redis.port, config.redis.host);
-// var db = new neo4j.GraphDatabase(url);
 // var queues = config.redis.queues;
 //
 // var readDir = _.wrapCallback(fs.readdir);
