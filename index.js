@@ -11,9 +11,9 @@ router.get('/queue', function(req, res) {
         message: err
       });
     } else {
-      return {
+      return res.send({
         length: reply
-      };
+      });
     }
   });
 });
