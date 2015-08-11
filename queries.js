@@ -29,7 +29,7 @@ module.exports = function(config) {
   var queryDir = 'queries';
   var queue = config.redis.queue + ':stats';
 
-  var queryNames = fs.readdirSync(path.join('.', queryDir))
+  var queryNames = fs.readdirSync(path.join(__dirname, queryDir))
     .filter(function(query) {
       return path.extname(query) === '.cypher';
     });
