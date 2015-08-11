@@ -16,7 +16,6 @@ module.exports = function(config) {
   var redis = require('redis');
   var client = redis.createClient(config.redis.port, config.redis.host);
 
-  var readDir = _.wrapCallback(fs.readdir);
   var readFile = _.wrapCallback(function(filename, callback) {
     return fs.readFile(filename, {encoding: 'utf8'}, callback);
   });
@@ -30,18 +29,13 @@ module.exports = function(config) {
   var queryDir = 'queries';
   var queue = config.redis.queue + ':stats';
 
-  function getQueryNames() {
-    // Read queryDir, find all files *.cypher
-    return readDir(path.join('.', queryDir))
-      .filter(function(query) {
-        return path.extname(query) === '.cypher';
-      })
-      .flatten();
-  }
-
-  var queryNames = getQueryNames();
+  var queryNames = fs.readdirSync(path.join('.', queryDir))
+    .filter(function(query) {
+      return path.extname(query) === '.cypher';
+    });
 
   return {
+
     get: function(name, callback) {
       client.hget(queue, name, function(err, data) {
         if (err) {
@@ -53,9 +47,8 @@ module.exports = function(config) {
     },
 
     update: function() {
-
       // Read files containing cypher queries, and execute cypher
-      var results = queryNames
+      var results = _(queryNames)
         .fork()
         .map(function(query) {
           return path.join('.', queryDir, query);
@@ -69,7 +62,7 @@ module.exports = function(config) {
         });
 
       // zip resulting stream with original query names, write to Redis
-      queryNames.fork().zip(results)
+      _(queryNames).zip(results)
         .each(function(result) {
           var query = result[0];
           var name = path.basename(query, path.extname(query));
@@ -80,12 +73,9 @@ module.exports = function(config) {
         });
     },
 
-    names: function(callback) {
-      queryNames.fork().map(function(queryName) {
-        return queryName.replace('.cypher', '');
-      }).toArray(function(arr) {
-        callback(arr);
-      });
-    }
+    names: queryNames.map(function(name) {
+      return name.replace('.cypher', '');
+    })
+
   };
 };
