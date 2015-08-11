@@ -9,9 +9,10 @@
   "author": "Bert Spaan",
   "license": "GPL-3.0",
   "dependencies": {
+    "cron": "^1.0.9",
     "express": "^4.13.1",
-    "redis": "^0.12.1",
-    "histograph-config": "histograph/config"
+    "histograph-config": "histograph/config",
+    "redis": "^0.12.1"
   },
   "devDependencies": {
     "jscs": "^1.10.0",

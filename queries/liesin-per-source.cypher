@@ -1,6 +1,8 @@
 MATCH
-  (p1:PIT)-[r:LIESIN]->(p2:PIT)
+  (p1:_)-[r:`hg:liesIn`*2..2]->(p2:_)
 WHERE
-  p1.sourceid = p2.sourceid
+  p1.dataset = p2.dataset
+  AND NOT p1:_Rel AND NOT p1:`=` AND NOT p1:`=i`
+  AND NOT p2:_Rel AND NOT p2:`=` AND NOT p2:`=i`
 RETURN DISTINCT
-  p1.sourceid, p1.type, p2.type
+  p1.dataset AS dataset, {p1: p1.type, p2: p2.type) AS types
