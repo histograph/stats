@@ -51,7 +51,7 @@ module.exports = function(config) {
       var results = _(queryNames)
         .fork()
         .map(function(query) {
-          return path.join('.', queryDir, query);
+          return path.join(__dirname, queryDir, query);
         })
         .map(readFile)
         .series()
