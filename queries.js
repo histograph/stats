@@ -68,9 +68,6 @@ module.exports = function(config) {
           var name = path.basename(query, path.extname(query));
           client.hset(queue, name, JSON.stringify(result[1]));
         })
-        .done(function() {
-          client.quit();
-        });
     },
 
     names: queryNames.map(function(name) {
