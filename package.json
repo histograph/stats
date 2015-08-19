@@ -11,6 +11,7 @@
   "dependencies": {
     "cron": "^1.0.9",
     "express": "^4.13.1",
+    "highland": "^2.5.1",
     "histograph-config": "histograph/config",
     "neo4j": "^2.0.0-RC2",
     "redis": "^0.12.1"
