@@ -1,3 +1,4 @@
+var url = require('url');
 var util = require('util');
 var redis = require('redis');
 var express = require('express');
@@ -31,7 +32,7 @@ router.get('/queue', function(req, res) {
 });
 
 var qs = queries.names.map(function(x){
-  return util.format('%s/stats/queries/%s', config.api.baseUrl, x);
+  return url.resolve(config.api.baseUrl, '/stats/queries/', x);
 });
 
 router.get('/queries', function(req, res) {
