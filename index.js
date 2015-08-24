@@ -7,15 +7,17 @@ var config = require('histograph-config');
 var client = redis.createClient(config.redis.port, config.redis.host);
 var queries = require('./queries')(config);
 
-var CronJob = require('cron').CronJob;
-var job = new CronJob({
-  cronTime: '0 */15 * * * *',
-  onTick: function() {
-    console.log('Executing all Cypher queries...');
-    queries.update();
-  }
-});
-job.start();
+if (config.stats.enabled) {
+  var CronJob = require('cron').CronJob;
+  var job = new CronJob({
+    cronTime: config.stats.cronExpression,
+    onTick: function() {
+      console.log('Executing all Cypher queries...');
+      queries.update();
+    }
+  });
+  job.start();
+}
 
 router.get('/queue', function(req, res) {
   client.llen(config.redis.queue, function(err, reply) {
