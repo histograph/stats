@@ -31,12 +31,12 @@ router.get('/queue', function(req, res) {
   });
 });
 
-var qs = queries.names.map(function(x){
-  return url.resolve(config.api.baseUrl, '/stats/queries/', x);
+var queryNames = queries.names.map(function(name) {
+  return url.resolve(config.api.baseUrl, '/stats/queries/' + name);
 });
 
 router.get('/queries', function(req, res) {
-  res.send(qs);
+  res.send(queryNames);
 });
 
 router.get('/queries/:query', function(req, res) {
