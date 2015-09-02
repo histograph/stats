@@ -1,3 +1,4 @@
+var url = require('url');
 var util = require('util');
 var redis = require('redis');
 var express = require('express');
@@ -6,15 +7,17 @@ var config = require('histograph-config');
 var client = redis.createClient(config.redis.port, config.redis.host);
 var queries = require('./queries')(config);
 
-var CronJob = require('cron').CronJob;
-var job = new CronJob({
-  cronTime: '0 */15 * * * *',
-  onTick: function() {
-    console.log('Executing all Cypher queries...');
-    queries.update();
-  }
-});
-job.start();
+if (config.stats.enabled) {
+  var CronJob = require('cron').CronJob;
+  var job = new CronJob({
+    cronTime: config.stats.cronExpression,
+    onTick: function() {
+      console.log('Executing all Cypher queries...');
+      queries.update();
+    }
+  });
+  job.start();
+}
 
 router.get('/queue', function(req, res) {
   client.llen(config.redis.queue, function(err, reply) {
@@ -30,12 +33,12 @@ router.get('/queue', function(req, res) {
   });
 });
 
-var qs = queries.names.map(function(x){
-  return util.format('%s/stats/queries/%s', config.api.baseUrl, x);
+var queryNames = queries.names.map(function(name) {
+  return url.resolve(config.api.baseUrl, '/stats/queries/' + name);
 });
 
 router.get('/queries', function(req, res) {
-  res.send(qs);
+  res.send(queryNames);
 });
 
 router.get('/queries/:query', function(req, res) {
