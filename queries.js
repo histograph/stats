@@ -49,7 +49,6 @@ module.exports = function(config) {
     update: function() {
       // Read files containing cypher queries, and execute cypher
       var results = _(queryNames)
-        .fork()
         .map(function(query) {
           return path.join(__dirname, queryDir, query);
         })
