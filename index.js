@@ -8,15 +8,19 @@ var client = redis.createClient(config.redis.port, config.redis.host);
 var queries = require('./queries')(config);
 
 if (config.stats.enabled) {
+
+  // run every now and then...
   var CronJob = require('cron').CronJob;
   var job = new CronJob({
     cronTime: config.stats.cronExpression,
     onTick: function() {
-      console.log('Executing all Cypher queries...');
       queries.update();
     }
   });
   job.start();
+
+  // and run on startup
+  queries.update();
 }
 
 router.get('/queue', function(req, res) {

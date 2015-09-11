@@ -47,6 +47,7 @@ module.exports = function(config) {
     },
 
     update: function() {
+      console.log('Executing all Cypher queries...');
       // Read files containing cypher queries, and execute cypher
       var results = _(queryNames)
         .map(function(query) {
