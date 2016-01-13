@@ -1,5 +1,4 @@
 var url = require('url');
-var util = require('util');
 var redis = require('redis');
 var express = require('express');
 var router = express.Router();

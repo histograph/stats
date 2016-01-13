@@ -1,18 +1,18 @@
 {
   "name": "histograph-stats",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "Executes set of queries and writes results to Redis",
   "main": "index.js",
   "scripts": {
     "test": "jshint *.js && jscs *.js"
   },
   "author": "Bert Spaan",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "dependencies": {
     "cron": "^1.0.9",
     "express": "^4.13.1",
     "highland": "^2.5.1",
-    "histograph-config": "histograph/config",
+    "histograph-config": "git+https://github.com/histograph/config#v0.5.0",
     "neo4j": "^2.0.0-RC2",
     "redis": "^0.12.1"
   },

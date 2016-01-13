@@ -48,6 +48,7 @@ module.exports = function(config) {
 
     update: function() {
       console.log('Executing all Cypher queries...');
+
       // Read files containing cypher queries, and execute cypher
       var results = _(queryNames)
         .map(function(query) {
@@ -67,7 +68,7 @@ module.exports = function(config) {
           var query = result[0];
           var name = path.basename(query, path.extname(query));
           client.hset(queue, name, JSON.stringify(result[1]));
-        })
+        });
     },
 
     names: queryNames.map(function(name) {
