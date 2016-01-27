@@ -1,6 +1,6 @@
 {
   "name": "histograph-stats",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Executes set of queries and writes results to Redis",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "cron": "^1.0.9",
     "express": "^4.13.1",
     "highland": "^2.5.1",
-    "histograph-config": "git+https://github.com/histograph/config#v0.5.0",
+    "histograph-config": "git+https://github.com/histograph/config#v0.5.1",
     "neo4j": "^2.0.0-RC2",
     "redis": "^0.12.1"
   },
