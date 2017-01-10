@@ -9,17 +9,21 @@
   "author": "Bert Spaan",
   "license": "MIT",
   "dependencies": {
-    "cron": "^1.0.9",
-    "express": "^4.13.1",
-    "highland": "^2.5.1",
+    "cron": "^1.2.1",
+    "express": "^4.14.0",
+    "highland": "^2.10.1",
     "histograph-config": "git+https://github.com/histograph/config#puppetdeploy",
     "neo4j": "^2.0.0-RC2",
-    "redis": "^0.12.1"
+    "redis": "^2.6.3"
   },
   "devDependencies": {
-    "jscs": "^1.10.0",
-    "jshint": "^2.6.0",
-    "tape": "^3.4.0"
+    "jscs": "^3.0.7",
+    "jshint": "^2.9.4",
+    "tape": "^4.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/histograph/stats.git"
   },
   "jshintConfig": {
     "node": true,
